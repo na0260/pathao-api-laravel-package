@@ -8,7 +8,7 @@ This package provides a complete Laravel integration with the Pathao Courier Mer
 Install via Composer:
 
 ```bash
-composer require na/pathao-laravel-api-package:@dev
+composer require na0260/pathao-api-laravel-package
 ```
 
 ## Configuration
