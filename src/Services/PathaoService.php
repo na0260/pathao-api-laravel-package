@@ -44,19 +44,61 @@ class PathaoService
         }
     }
 
+    protected function post(string $endpoint, array $body)
+    {
+        try {
+            $response = $this->client->post($endpoint, [
+                'headers' => $this->headers(),
+                'json' => $body,
+            ]);
+            return json_decode($response->getBody()->getContents(), true);
+        } catch (\Exception $e) {
+            throw new PathaoException($e->getMessage());
+        }
+    }
+
     // === Public APIs ===
-    public function cities()
+
+    public function cities(): array
     {
         return $this->get('aladdin/api/v1/city-list')['data']['data'] ?? [];
     }
 
-    public function zones(int $cityId)
+    public function zones(int $cityId): array
     {
         return $this->get("aladdin/api/v1/cities/{$cityId}/zone-list")['data']['data'] ?? [];
     }
 
-    public function areas(int $zoneId)
+    public function areas(int $zoneId): array
     {
         return $this->get("aladdin/api/v1/zones/{$zoneId}/area-list")['data']['data'] ?? [];
+    }
+
+    // === New Order API ===
+    public function createOrder(array $data): array
+    {
+        $requiredFields = [
+            'store_id', 'recipient_name', 'recipient_phone',
+            'recipient_address', 'delivery_type', 'item_type',
+            'item_quantity', 'item_weight', 'amount_to_collect',
+        ];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                throw new PathaoException("Missing required field: {$field}");
+            }
+        }
+
+        return $this->post('aladdin/api/v1/orders', $data);
+    }
+
+    // === Optional Bulk Order ===
+    public function createBulkOrder(array $orders): array
+    {
+        if (empty($orders)) {
+            throw new PathaoException('Orders array cannot be empty');
+        }
+
+        return $this->post('aladdin/api/v1/orders/bulk', ['orders' => $orders]);
     }
 }
