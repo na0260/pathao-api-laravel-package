@@ -123,7 +123,7 @@ class PathaoService
     // === Order Info ===
     public function orderInfo(string $consignmentId): array
     {
-        return $this->get("aladdin/api/v1/orders/{$consignmentId}/info")['data']['data'] ?? [];
+        return $this->get("aladdin/api/v1/orders/{$consignmentId}/info") ?? [];
     }
     
     // === Price Calculator ===
