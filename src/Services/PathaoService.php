@@ -121,7 +121,7 @@ class PathaoService
     }
     
     // === Order Info ===
-    public function orderInfo(int $consignmentId): array
+    public function orderInfo(string $consignmentId): array
     {
         return $this->get("aladdin/api/v1/orders/{$consignmentId}/info")['data']['data'] ?? [];
     }
