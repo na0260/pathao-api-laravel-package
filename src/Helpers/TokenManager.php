@@ -18,6 +18,7 @@ class TokenManager
                     'json' => [
                         'client_id' => $config['client_id'],
                         'client_secret' => $config['client_secret'],
+                        "grant_type"=> "password",
                         'username' => $config['username'],
                         'password' => $config['password']
                     ]

@@ -1,5 +1,5 @@
 {
-  "name": "na/pathao-laravel",
+  "name": "na/pathao-laravel-api-package",
   "description": "A Laravel 8–12 compatible Pathao Courier API integration package with token caching and full feature support.",
   "type": "library",
   "license": "MIT",

@@ -7,7 +7,7 @@ return [
     'password' => env('PATHAO_PASSWORD'),
     'sandbox' => env('PATHAO_SANDBOX', true),
     'base_urls' => [
-        'sandbox' => 'https://sandbox.pathao.com/',
-        'live' => 'https://api-hermes.pathao.com/'
+        'sandbox' => 'https://courier-api-sandbox.pathao.com',
+        'live' => 'https://api-hermes.pathao.com'
     ],
 ];
