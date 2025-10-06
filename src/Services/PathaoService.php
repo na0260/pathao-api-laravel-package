@@ -74,6 +74,24 @@ class PathaoService
         return $this->get("aladdin/api/v1/zones/{$zoneId}/area-list")['data']['data'] ?? [];
     }
 
+    // === New Store API ===
+    public function createStore(array $data): array
+    {
+        $requiredFields = [
+            'name', 'contact_name', 'contact_number',
+            'address', 'city_id', 'zone_id',
+            'area_id'
+        ];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                throw new PathaoException("Missing required field: {$field}");
+            }
+        }
+
+        return $this->post('/aladdin/api/v1/stores', $data);
+    }
+
     // === New Order API ===
     public function createOrder(array $data): array
     {
@@ -100,5 +118,34 @@ class PathaoService
         }
 
         return $this->post('aladdin/api/v1/orders/bulk', ['orders' => $orders]);
+    }
+    
+    // === Order Info ===
+    public function orderInfo(int $consignmentId): array
+    {
+        return $this->get("aladdin/api/v1/orders/{$consignmentId}/info")['data']['data'] ?? [];
+    }
+    
+    // === Price Calculator ===
+    public function priceCalculator(array $data): array
+    {
+        $requiredFields = [
+            'store_id', 'item_type', 'delivery_type',
+            'item_weight', 'recipient_city', 'recipient_zone'
+        ];
+
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                throw new PathaoException("Missing required field: {$field}");
+            }
+        }
+
+        return $this->post('/aladdin/api/v1/merchant/price-plan', $data);
+    }
+
+    // === Store Info ===
+    public function storeInfo(): array
+    {
+        return $this->get("/aladdin/api/v1/stores")['data']['data'] ?? [];
     }
 }
